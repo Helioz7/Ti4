@@ -37,7 +37,7 @@
     </div>
 </header>
 
-<!-- Filtres et options de tri -->
+<!-- Filtres et options de filtrage -->
 <section class="container my-4" id="filters">
     <div class="row">
         <div class="col-md-6">
@@ -56,12 +56,11 @@
             </div>
         </div>
         <div class="col-md-6 text-end">
-            <h5>Tri</h5>
+            <h5>Filtre</h5>
             <select class="form-select" id="sortOptions">
                 <option selected>Choisissez une option</option>
                 <option value="priceAsc">Prix croissant</option>
                 <option value="priceDesc">Prix décroissant</option>
-                <option value="newest">Nouveautés</option>
             </select>
         </div>
     </div>
@@ -142,10 +141,7 @@
             const originalProducts = products; // Conserver les produits originaux pour filtrage
 
             // Afficher les produits
-            products.forEach(product => {
-                const productCard = createProductCard(product);
-                productList.innerHTML += productCard;
-            });
+            displayProducts(products);
 
             // Ajouter la fonctionnalité "Ajouter au panier"
             addCartFunctionality();
@@ -157,7 +153,26 @@
                     filterProducts(originalProducts);
                 });
             });
+
+            // Filtrage des produits par prix
+            document.getElementById('sortOptions').addEventListener('change', (e) => {
+                const sortOption = e.target.value;
+                sortProducts(originalProducts, sortOption);
+            });
         });
+
+    function displayProducts(products) {
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = ''; // Effacer la liste de produits actuelle
+
+        products.forEach(product => {
+            const productCard = createProductCard(product);
+            productList.innerHTML += productCard;
+        });
+
+        // Réinitialiser la fonctionnalité "Ajouter au panier"
+        addCartFunctionality();
+    }
 
     function createProductCard(product) {
         return `
@@ -205,24 +220,23 @@
 
     function filterProducts(originalProducts) {
         const selectedCategories = Array.from(document.querySelectorAll('.form-check-input:checked')).map(input => input.value);
-        const productList = document.getElementById('product-list');
-        productList.innerHTML = ''; // Effacer la liste de produits actuelle
 
-        // Filtrer les produits
         const filteredProducts = originalProducts.filter(product => {
             return selectedCategories.length === 0 || selectedCategories.includes(product.category);
         });
 
-        // Afficher les produits filtrés
-        filteredProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            productList.innerHTML += productCard;
-        });
+        displayProducts(filteredProducts);
+    }
 
-        // Réinitialiser le total et le panier
-        total = 0;
-        document.getElementById('total-price').textContent = total.toFixed(2);
-        document.getElementById('cart-items').innerHTML = '';
+    function sortProducts(products, sortOption) {
+        let sortedProducts = [...products];
+        if (sortOption === 'priceAsc') {
+            sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (sortOption === 'priceDesc') {
+            sortedProducts.sort((a, b) => b.price - a.price);
+        }
+
+        displayProducts(sortedProducts);
     }
 
     // Appliquer le code promo
