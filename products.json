@@ -1,0 +1,25 @@
+[
+    {
+        "id": 1,
+        "name": "Produit Homme",
+        "description": "Fabriquée en cuir de haute qualité, elle offre une protection optimale tout en assurant un confort exceptionnel. Son design ergonomique et ses détails soignés en font le choix parfait pour les passionnés de moto.",
+        "price": 120,
+        "image": "img/homme.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Produit Femme",
+        "description": "Notre robe rouge pour femme, parfaite pour faire une déclaration audacieuse. Son tissu fluide et sa coupe élégante mettent en valeur la silhouette, tout en offrant un confort inégalé.",
+        "price": 80,
+        "image": "img/femme2-removebg-preview.png"
+    },
+    {
+        "id": 3,
+        "name": "Produit Enfant",
+        "description": "Fabriqué à partir de matériaux doux et respirants, il permet à votre petit de bouger librement tout en restant tendance.",
+        "price": 50,
+        "image": "img/enfant-removebg-preview.png"
+    }
+    
+    
+]

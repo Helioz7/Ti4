@@ -1,0 +1,59 @@
+body {
+    background-image: url('pngtree-abstract-blur-shop-and-retail-store-in-shopping-mall-image_15683814.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+header {
+    background-image: url('img/your-background-image.jpg'); /* Remplace par le chemin de ton image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+  }
+
+  header .display-4 {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  header .lead {
+    font-size: 1.5rem;
+  }
+
+  /* Panier flottant */
+  #floating-cart {
+    position: fixed;
+    top: 80px;  /* Descendu légèrement pour éviter la superposition */
+    right: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  #floating-cart:hover {
+    background-color: #0056b3;
+  }
+
+  /* Effets et transitions */
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
