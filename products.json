@@ -1,25 +1,26 @@
 [
     {
         "id": 1,
-        "name": "Produit Homme",
+        "name": "Veste en Cuir",
         "description": "Fabriquée en cuir de haute qualité, elle offre une protection optimale tout en assurant un confort exceptionnel. Son design ergonomique et ses détails soignés en font le choix parfait.",
         "price": 120,
-        "image": "img/homme.jpg"
+        "image": "img/homme.jpg",
+        "category": "hommes"
     },
     {
         "id": 2,
-        "name": "Produit Femme",
+        "name": "Robe Rouge Élégante",
         "description": "Notre robe rouge pour femme, parfaite pour faire une déclaration audacieuse. Son tissu fluide et sa coupe élégante mettent en valeur la silhouette, tout en offrant un confort inégalé.",
         "price": 80,
-        "image": "img/femme.png"
+        "image": "img/femme.png",
+        "category": "femmes"
     },
     {
         "id": 3,
-        "name": "Produit Enfant",
-        "description": "Fabriqué à partir de matériaux doux et respirants, il permet à votre petit de bouger librement tout en restant tendance. ses détails soignés en font le choix parfait.",
+        "name": "T-shirt Enfant",
+        "description": "Fabriqué à partir de matériaux doux et respirants, il permet à votre petit de bouger librement tout en restant tendance. Ses détails soignés en font le choix parfait.",
         "price": 50,
-        "image": "img/enfant1.png"
+        "image": "img/enfant1.png",
+        "category": "enfants"
     }
-    
-    
 ]

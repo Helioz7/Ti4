@@ -13,16 +13,16 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fas fa-tshirt"></i>DeanWinchester</a>
+        <a class="navbar-brand" href="#"><i class="fas fa-tshirt"></i> DeanWinchester</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Hommes</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Femmes</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Enfants</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="nav-item" style="margin-left: 10px; margin-right: 10px;"><a class="nav-link" href="#">Hommes</a></li>
+                <li class="nav-item" style="margin-left: 10px; margin-right: 10px;"><a class="nav-link" href="#">Femmes</a></li>
+                <li class="nav-item" style="margin-left: 10px; margin-right: 10px;"><a class="nav-link" href="#">Enfants</a></li>
+                <li class="nav-item" style="margin-left: 10px; margin-right: 10px;"><a class="nav-link" href="#">Contact</a></li>
             </ul>
         </div>
     </div>
@@ -37,8 +37,45 @@
     </div>
 </header>
 
+<!-- Filtres et options de tri -->
+<section class="container my-4" id="filters">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Filtres</h5>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="men" value="hommes">
+                <label class="form-check-label" for="men">Hommes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="women" value="femmes">
+                <label class="form-check-label" for="women">Femmes</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="kids" value="enfants">
+                <label class="form-check-label" for="kids">Enfants</label>
+            </div>
+        </div>
+        <div class="col-md-6 text-end">
+            <h5>Tri</h5>
+            <select class="form-select" id="sortOptions">
+                <option selected>Choisissez une option</option>
+                <option value="priceAsc">Prix croissant</option>
+                <option value="priceDesc">Prix décroissant</option>
+                <option value="newest">Nouveautés</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- Bannière promotionnelle -->
+<section class="container my-4">
+    <div class="alert alert-success text-center" role="alert">
+        <strong>Promotion Spéciale!</strong> Profitez de 20% de réduction sur toute la collection d'hiver. Utilisez le code : <strong>CF2M</strong>
+    </div>
+</section>
+
 <!-- Catalogue de produits -->
-<section class="container my-5 style" id="catalogue">
+<section class="container my-5" id="catalogue">
     <h2 class="text-center mb-4">Catalogue de Produits</h2>
     <div class="row" id="product-list">
         <!-- Les produits chargés depuis le fichier JSON apparaîtront ici -->
@@ -81,6 +118,11 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <div class="input-group w-100">
+                    <input type="text" id="promo-code" class="form-control" placeholder="Entrez le code promo">
+                    <button class="btn btn-primary" id="apply-promo">Appliquer</button>
+                </div>
+                <div class="mt-2" id="promo-message"></div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
@@ -90,64 +132,121 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     let total = 0;
+    let promoApplied = false;
 
     // Charger les produits depuis le fichier JSON
     fetch('products.json')
         .then(response => response.json())
         .then(products => {
             const productList = document.getElementById('product-list');
+            const originalProducts = products; // Conserver les produits originaux pour filtrage
+
+            // Afficher les produits
             products.forEach(product => {
-                const productCard = `
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">${product.name}</h5>
-                                <p class="card-text">${product.description}</p>
-                                <p class="price">Prix : ${product.price} €</p>
-                                <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                const productCard = createProductCard(product);
                 productList.innerHTML += productCard;
             });
 
             // Ajouter la fonctionnalité "Ajouter au panier"
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', () => {
-                    const productName = button.dataset.productName;
-                    const productPrice = parseFloat(button.dataset.productPrice);
-                    const cartItems = document.getElementById('cart-items');
-                    const totalPriceElement = document.getElementById('total-price');
+            addCartFunctionality();
 
-                    // Ajouter l'article au panier
-                    const listItem = document.createElement('li');
-                    listItem.classList.add('list-group-item');
-                    listItem.textContent = `${productName} - ${productPrice} €`;
-                    cartItems.appendChild(listItem);
-
-                    // Mettre à jour le total
-                    total += productPrice;
-                    totalPriceElement.textContent = total.toFixed(2); // Affiche le total avec 2 décimales
+            // Filtrage des produits
+            const filterCheckboxes = document.querySelectorAll('.form-check-input');
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    filterProducts(originalProducts);
                 });
             });
         });
 
-    // Confirmation du formulaire
-    document.getElementById('confirmation-form').addEventListener('submit', (event) => {
-        event.preventDefault();
-        alert('Commande confirmée !');
-        // Réinitialiser le panier
+    function createProductCard(product) {
+        return `
+            <div class="col-md-4 product-item ${product.category}">
+                <div class="card">
+                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <p class="price">Prix : ${product.price} €</p>
+                        <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Ajouter au panier</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function addCartFunctionality() {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartItems = document.getElementById('cart-items');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productId = button.getAttribute('data-product-id');
+                const productName = button.getAttribute('data-product-name');
+                const productPrice = parseFloat(button.getAttribute('data-product-price'));
+
+                // Ajouter le produit au panier
+                total += productPrice;
+                const cartItem = document.createElement('li');
+                cartItem.classList.add('list-group-item');
+                cartItem.textContent = `${productName} - ${productPrice} €`;
+                cartItems.appendChild(cartItem);
+
+                // Mettre à jour le total
+                document.getElementById('total-price').textContent = total.toFixed(2);
+
+                // Réinitialiser le formulaire
+                document.getElementById('confirmation-form').reset();
+                promoApplied = false;
+                document.getElementById('promo-message').textContent = '';
+            });
+        });
+    }
+
+    function filterProducts(originalProducts) {
+        const selectedCategories = Array.from(document.querySelectorAll('.form-check-input:checked')).map(input => input.value);
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = ''; // Effacer la liste de produits actuelle
+
+        // Filtrer les produits
+        const filteredProducts = originalProducts.filter(product => {
+            return selectedCategories.length === 0 || selectedCategories.includes(product.category);
+        });
+
+        // Afficher les produits filtrés
+        filteredProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            productList.innerHTML += productCard;
+        });
+
+        // Réinitialiser le total et le panier
+        total = 0;
+        document.getElementById('total-price').textContent = total.toFixed(2);
         document.getElementById('cart-items').innerHTML = '';
-        total = 0; // Réinitialiser le total
-        document.getElementById('total-price').textContent = total.toFixed(2); // Réinitialiser l'affichage du total
-        // Réinitialiser le formulaire
-        event.target.reset();
-        // Fermer la modale
-        const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
-        cartModal.hide();
+    }
+
+    // Appliquer le code promo
+    document.getElementById('apply-promo').addEventListener('click', () => {
+        const promoCode = document.getElementById('promo-code').value;
+        const promoMessage = document.getElementById('promo-message');
+        
+        if (promoCode === 'CF2M' && !promoApplied) {
+            total *= 0.8; // Appliquer 20% de réduction
+            promoApplied = true;
+            promoMessage.textContent = 'Code promo appliqué! Votre total est maintenant ' + total.toFixed(2) + ' €';
+            document.getElementById('total-price').textContent = total.toFixed(2);
+        } else {
+            promoMessage.textContent = 'Code promo invalide ou déjà utilisé.';
+        }
+    });
+
+    // Soumettre le formulaire de confirmation
+    document.getElementById('confirmation-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Commande soumise avec succès!');
+        // Ici vous pouvez ajouter la logique pour envoyer les données à votre serveur
     });
 </script>
+
 </body>
 </html>
