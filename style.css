@@ -173,11 +173,10 @@ header {
 
 
 
-
         :root {
-            --custom-brown: #f6f4f3;
-            --light-brown: #f7f6f5;
-        }
+          --custom-brown: #817166;
+          --light-brown: #DEB887;
+      }
 
         /* Styles existants pour les boutons et le panier ... */
 
@@ -256,9 +255,9 @@ header {
         }
 
   :root {
-            --custom-brown: #8B4513;
-            --light-brown: #DEB887;
-        }
+    --custom-brown: #817166;
+    --light-brown: #DEB887;
+}
 
         /* Styles existants pour les boutons et le panier ... */
 

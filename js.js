@@ -127,6 +127,7 @@ function filterProducts(originalProducts) {
     displayProducts(filteredProducts);
 }
 
+
 function sortProducts(products, sortOption) {
     let sortedProducts = [...products];
     if (sortOption === 'priceAsc') {

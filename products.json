@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Veste en Cuir",
-        "description": "Fabriquée en cuir de haute qualité, elle offre une protection optimale tout en assurant un confort exceptionnel. Son design ergonomique et ses détails soignés en font le choix parfait.",
+        "description": "Fabriquée en cuir de haute qualité, elle offre une protection optimale tout en assurant un confort.",
         "price": 120,
         "image": "img/homme.jpg",
         "category": "hommes"
@@ -10,7 +10,7 @@
     {
         "id": 2,
         "name": "Robe Rouge Élégante",
-        "description": "Notre robe rouge pour femme, parfaite pour faire une déclaration audacieuse. Son tissu fluide et sa coupe élégante mettent en valeur la silhouette, tout en offrant un confort inégalé.",
+        "description": "Notre robe rouge pour femme, parfaite pour faire une déclaration audacieuse. Son tissu fluide.",
         "price": 80,
         "image": "img/femme.png",
         "category": "femmes"
@@ -18,7 +18,7 @@
     {
         "id": 3,
         "name": "T-shirt Enfant",
-        "description": "Fabriqué à partir de matériaux doux et respirants, il permet à votre petit de bouger librement tout en restant tendance. Ses détails soignés en font le choix parfait.",
+        "description": "Fabriqué à partir de matériaux doux et respirants, il permet à votre petit de bouger librement.",
         "price": 50,
         "image": "img/enfant1.png",
         "category": "enfants"
@@ -26,7 +26,7 @@
     {
         "id": 4,
         "name": "Pull sportif",
-        "description": "Pull élégante en coton égyptien, parfaite pour le sport. Coupe ajustée et finitions raffinées pour un look professionnel impeccable.",
+        "description": "Pull élégante en coton égyptien, parfaite pour le sport. Coupe ajustée et finitions raffinées.",
         "price": 75,
         "image": "img/homme2.png",
         "category": "hommes"
@@ -34,7 +34,7 @@
     {
         "id": 5,
         "name": "Chemise Jeans",
-        "description": "Chemise Jeans coupe slim en denim premium avec stretch confortable. Parfait pour toutes les occasions, du casual au semi-formel.",
+        "description": "Chemise Jeans coupe slim en denim premium avec stretch confortable. Parfait pour toutes les occasions..",
         "price": 90,
         "image": "img/homme3.png",
         "category": "hommes"
@@ -42,7 +42,7 @@
     {
         "id": 6,
         "name": "Jeans",
-        "description": "Jeans structuré avec doublure soyeuse. Coupe moderne et tissu respirant pour un confort optimal toute la journée.",
+        "description": "Jeans ajustés à la taille haute, offrant une silhouette élégante et contemporaine. Tissu stretch confortable.",
         "price": 150,
         "image": "img/femme2.png",
         "category": "femmes"
