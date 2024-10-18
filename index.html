@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<!-- Navigation -->
+<!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid justify-content-center">
         <a class="navbar-brand mx-auto" href="#"><i class="fas fa-tshirt"></i> DeanWinchester</a>
@@ -20,7 +20,7 @@
     </div>
 </nav>
 
-<!-- En-tête -->
+
 <header class="bg-primary text-white text-center py-5">
     <div class="container">
         <h1 class="display-4">Bienvenue dans notre Catalogue de Vêtements</h1>
@@ -29,7 +29,7 @@
     </div>
 </header>
 
-<!-- Filtres et options de filtrage -->
+<!-- Filtres -->
 <section class="container my-4" id="filters">
     <div class="row">
         <div class="col-md-6">
@@ -58,28 +58,27 @@
     </div>
 </section>
 
-<!-- Bannière promotionnelle -->
+<!--promo -->
 <section class="container my-4">
     <div class="alert alert-success text-center" role="alert">
         <strong>Promotion Spéciale!</strong> Profitez de 20% de réduction sur toute la collection d'hiver. Utilisez le code : <strong>CF2M</strong>
     </div>
 </section>
 
-<!-- Catalogue de produits -->
+
 <section class="container my-5" id="catalogue">
     <h2 class="text-center mb-4">Catalogue de Produits</h2>
     <div class="row" id="product-list">
-        <!-- Les produits chargés depuis le fichier JSON apparaîtront ici -->
     </div>
 </section>
 
-<!-- Panier flottant avec effet de ping -->
+<!-- ping -->
 <div id="floating-cart" data-bs-toggle="modal" data-bs-target="#cartModal" class="ping">
     <i class="fas fa-shopping-cart"></i>
     <span id="cart-count" style="display: none;">0</span>
 </div>
 
-<!-- Modale Panier d'achat -->
+<!-- achat -->
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -89,7 +88,7 @@
             </div>
             <div class="modal-body">
                 <ul id="cart-items" class="list-group mb-3">
-                    <!-- Les produits ajoutés au panier apparaîtront ici -->
+                    <!-- panier  -->
                 </ul>
                 <p><strong>Total : <span id="total-price">0</span> €</strong></p>
                 <form id="confirmation-form">
