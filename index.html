@@ -11,7 +11,6 @@
 <body>
 
 <!-- Navigation -->
-<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid justify-content-center">
         <a class="navbar-brand mx-auto" href="#"><i class="fas fa-tshirt"></i> DeanWinchester</a>
@@ -74,9 +73,10 @@
     </div>
 </section>
 
-<!-- Panier flottant -->
-<div id="floating-cart" data-bs-toggle="modal" data-bs-target="#cartModal">
+<!-- Panier flottant avec effet de ping -->
+<div id="floating-cart" data-bs-toggle="modal" data-bs-target="#cartModal" class="ping">
     <i class="fas fa-shopping-cart"></i>
+    <span id="cart-count" style="display: none;">0</span>
 </div>
 
 <!-- Modale Panier d'achat -->
@@ -123,137 +123,322 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    let total = 0;
-    let promoApplied = false;
+let total = 0;
+let promoApplied = false;
+let itemCount = 0;
+let originalTotal = 0; // Nouveau: garder une trace du total original
 
-    // Charger les produits depuis le fichier JSON
-    fetch('products.json')
-        .then(response => response.json())
-        .then(products => {
-            const productList = document.getElementById('product-list');
-            const originalProducts = products; // Conserver les produits originaux pour filtrage
+// Charger les produits depuis le fichier JSON
+fetch('products.json')
+    .then(response => response.json())
+    .then(products => {
+        const originalProducts = products;
+        displayProducts(products);
 
-            // Afficher les produits
-            displayProducts(products);
-
-            // Ajouter la fonctionnalité "Ajouter au panier"
-            addCartFunctionality();
-
-            // Filtrage des produits
-            const filterCheckboxes = document.querySelectorAll('.form-check-input');
-            filterCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    filterProducts(originalProducts);
-                });
-            });
-
-            // Filtrage des produits par prix
-            document.getElementById('sortOptions').addEventListener('change', (e) => {
-                const sortOption = e.target.value;
-                sortProducts(originalProducts, sortOption);
+        // Filtrage des produits
+        const filterCheckboxes = document.querySelectorAll('.form-check-input');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                filterProducts(originalProducts);
             });
         });
 
-    function displayProducts(products) {
-        const productList = document.getElementById('product-list');
-        productList.innerHTML = ''; // Effacer la liste de produits actuelle
-
-        products.forEach(product => {
-            const productCard = createProductCard(product);
-            productList.innerHTML += productCard;
+        // Tri des produits
+        document.getElementById('sortOptions').addEventListener('change', (e) => {
+            const sortOption = e.target.value;
+            sortProducts(originalProducts, sortOption);
         });
+    });
 
-        // Réinitialiser la fonctionnalité "Ajouter au panier"
-        addCartFunctionality();
-    }
+function displayProducts(products) {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = '';
 
-    function createProductCard(product) {
-        return `
-            <div class="col-md-4 product-item ${product.category}">
-                <div class="card">
-                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">${product.description}</p>
-                        <p class="price">Prix : ${product.price} €</p>
-                        <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Ajouter au panier</button>
-                    </div>
+    products.forEach(product => {
+        const productElement = document.createElement('div');
+        productElement.className = `col-md-4 product-item ${product.category}`;
+        productElement.innerHTML = `
+            <div class="card">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text">${product.description}</p>
+                    <p class="price">Prix : ${product.price} €</p>
+                    <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Ajouter au panier</button>
                 </div>
             </div>
         `;
-    }
 
-    function addCartFunctionality() {
-        const addToCartButtons = document.querySelectorAll('.add-to-cart');
-        const cartItems = document.getElementById('cart-items');
-
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const productId = button.getAttribute('data-product-id');
-                const productName = button.getAttribute('data-product-name');
-                const productPrice = parseFloat(button.getAttribute('data-product-price'));
-
-                // Ajouter le produit au panier
-                total += productPrice;
-                const cartItem = document.createElement('li');
-                cartItem.classList.add('list-group-item');
-                cartItem.textContent = `${productName} - ${productPrice} €`;
-                cartItems.appendChild(cartItem);
-
-                // Mettre à jour le total
-                document.getElementById('total-price').textContent = total.toFixed(2);
-
-                // Réinitialiser le formulaire
-                document.getElementById('confirmation-form').reset();
-                promoApplied = false;
-                document.getElementById('promo-message').textContent = '';
-            });
-        });
-    }
-
-    function filterProducts(originalProducts) {
-        const selectedCategories = Array.from(document.querySelectorAll('.form-check-input:checked')).map(input => input.value);
-
-        const filteredProducts = originalProducts.filter(product => {
-            return selectedCategories.length === 0 || selectedCategories.includes(product.category);
-        });
-
-        displayProducts(filteredProducts);
-    }
-
-    function sortProducts(products, sortOption) {
-        let sortedProducts = [...products];
-        if (sortOption === 'priceAsc') {
-            sortedProducts.sort((a, b) => a.price - b.price);
-        } else if (sortOption === 'priceDesc') {
-            sortedProducts.sort((a, b) => b.price - a.price);
-        }
-
-        displayProducts(sortedProducts);
-    }
-
-    // Appliquer le code promo
-    document.getElementById('apply-promo').addEventListener('click', () => {
-        const promoCode = document.getElementById('promo-code').value;
-        const promoMessage = document.getElementById('promo-message');
+        const addToCartButton = productElement.querySelector('.add-to-cart');
+        addToCartButton.addEventListener('click', handleAddToCart);
         
-        if (promoCode === 'CF2M' && !promoApplied) {
-            total *= 0.8; // Appliquer 20% de réduction
+        productList.appendChild(productElement);
+    });
+}
+
+function handleAddToCart(event) {
+    const button = event.currentTarget;
+    const productId = button.getAttribute('data-product-id');
+    const productName = button.getAttribute('data-product-name');
+    const productPrice = parseFloat(button.getAttribute('data-product-price'));
+
+    const cartItems = document.getElementById('cart-items');
+    const cartItem = document.createElement('li');
+    cartItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+    
+    cartItem.innerHTML = `
+        <span>${productName} - ${productPrice} €</span>
+        <button class="btn btn-danger btn-sm remove-item">×</button>
+    `;
+
+    const removeButton = cartItem.querySelector('.remove-item');
+    removeButton.addEventListener('click', () => {
+        originalTotal -= productPrice; // Mettre à jour le total original
+        if (promoApplied) {
+            total = originalTotal * 0.8; // Recalculer le total avec la promotion
+        } else {
+            total = originalTotal;
+        }
+        itemCount--;
+        updateCartDisplay();
+        cartItem.remove();
+    });
+
+    cartItems.appendChild(cartItem);
+
+    // Mettre à jour les totaux
+    originalTotal += productPrice;
+    if (promoApplied) {
+        total = originalTotal * 0.8; // Appliquer la promotion si elle est active
+    } else {
+        total = originalTotal;
+    }
+    itemCount++;
+    
+    updateCartDisplay();
+    triggerCartPing();
+}
+
+function updateCartDisplay() {
+    document.getElementById('total-price').textContent = total.toFixed(2);
+    const cartCount = document.getElementById('cart-count');
+    cartCount.textContent = itemCount;
+    cartCount.style.display = itemCount > 0 ? 'inline-block' : 'none';
+
+    // Mettre à jour le message de promo si applicable
+    if (promoApplied) {
+        const savings = (originalTotal - total).toFixed(2);
+        document.getElementById('promo-message').textContent = 
+            `Code promo appliqué! Économie: ${savings} €. Total original: ${originalTotal.toFixed(2)} €`;
+    }
+}
+
+function triggerCartPing() {
+    const floatingCart = document.getElementById('floating-cart');
+    floatingCart.classList.add('ping');
+    setTimeout(() => {
+        floatingCart.classList.remove('ping');
+    }, 500);
+}
+
+function filterProducts(originalProducts) {
+    const selectedCategories = Array.from(document.querySelectorAll('.form-check-input:checked'))
+        .map(input => input.value);
+
+    const filteredProducts = originalProducts.filter(product => {
+        return selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    });
+
+    displayProducts(filteredProducts);
+}
+
+function sortProducts(products, sortOption) {
+    let sortedProducts = [...products];
+    if (sortOption === 'priceAsc') {
+        sortedProducts.sort((a, b) => a.price - b.price);
+    } else if (sortOption === 'priceDesc') {
+        sortedProducts.sort((a, b) => b.price - a.price);
+    }
+    displayProducts(sortedProducts);
+}
+
+// Gestionnaire du code promo amélioré
+document.getElementById('apply-promo').addEventListener('click', () => {
+    const promoCode = document.getElementById('promo-code').value.trim();
+    const promoMessage = document.getElementById('promo-message');
+    
+    if (promoCode === 'CF2M') {
+        if (!promoApplied) {
             promoApplied = true;
-            promoMessage.textContent = 'Code promo appliqué! Votre total est maintenant ' + total.toFixed(2) + ' €';
+            total = originalTotal * 0.8; // Appliquer 20% de réduction
+            const savings = (originalTotal - total).toFixed(2);
+            promoMessage.textContent = `Code promo appliqué! Économie: ${savings} €. Total original: ${originalTotal.toFixed(2)} €`;
             document.getElementById('total-price').textContent = total.toFixed(2);
         } else {
-            promoMessage.textContent = 'Code promo invalide ou déjà utilisé.';
+            promoMessage.textContent = 'Le code promo est déjà appliqué.';
         }
-    });
+    } else {
+        promoMessage.textContent = 'Code promo invalide.';
+    }
+});
 
-    // Soumettre le formulaire de confirmation
-    document.getElementById('confirmation-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Commande soumise avec succès!');
-        // Ici vous pouvez ajouter la logique pour envoyer les données à votre serveur
-    });
+// Gestionnaire du formulaire de confirmation
+document.getElementById('confirmation-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    if (itemCount === 0) {
+        alert('Votre panier est vide. Veuillez ajouter des articles avant de commander.');
+        return;
+    }
+    
+    alert('Commande soumise avec succès!');
+    
+    // Réinitialiser tous les états
+    document.getElementById('cart-items').innerHTML = '';
+    total = 0;
+    originalTotal = 0;
+    itemCount = 0;
+    promoApplied = false;
+    updateCartDisplay();
+    document.getElementById('promo-message').textContent = '';
+    document.getElementById('promo-code').value = '';
+    document.getElementById('confirmation-form').reset();
+});
 </script>
 
 </body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- ... (code existant de la section head) ... -->
+    <style>
+        :root {
+            --custom-brown: #8B4513;
+            --light-brown: #DEB887;
+        }
+
+        /* Styles existants pour les boutons et le panier ... */
+
+        /* Styles du footer */
+        .footer {
+            background-color: var(--custom-brown);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer h5 {
+            color: var(--light-brown);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-brown);
+        }
+
+        .social-icons {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: white;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--light-brown);
+        }
+
+        .footer-bottom {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        .newsletter-input {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .newsletter-button {
+            background-color: var(--light-brown);
+            border: none;
+            color: var(--custom-brown);
+            padding: 0.5rem 1rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background-color: #cd9b59;
+        }
+    </style>
+</head>
+<body>
+    <!-- ... (code existant) ... -->
+
+    <!-- Ajouter le footer juste avant la fermeture du body -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>À propos de DeanWinchester</h5>
+                    <p>Votre destination mode préférée pour des vêtements de qualité. Nous proposons une large gamme de vêtements pour hommes, femmes et enfants.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Liens Utiles</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Notre Histoire</a></li>
+                        <li><a href="#">Conditions Générales</a></li>
+                        <li><a href="#">Politique de Confidentialité</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Inscrivez-vous pour recevoir nos dernières offres et nouveautés.</p>
+                    <div class="input-group">
+                        <input type="email" class="newsletter-input" placeholder="Votre email">
+                        <button class="newsletter-button">S'inscrire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <div class="container">
+                <p class="mb-0">&copy; 2024 DeanWinchester. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ... (scripts existants) ... -->
+</body>
+</html>
 </html>

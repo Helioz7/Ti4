@@ -63,4 +63,194 @@ header {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 
-  
+
+         /* Animation de ping */
+         @keyframes ping {
+          0% {
+              transform: scale(1);
+              opacity: 1;
+          }
+          75% {
+              transform: scale(1.5);
+              opacity: 0;
+          }
+          100% {
+              transform: scale(2);
+              opacity: 0;
+          }
+      }
+
+      /* Classe pour l'effet visuel du ping */
+      .ping {
+          position: relative;
+          display: inline-block;
+      }
+
+      .ping::after {
+          content: '';
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          width: 10px;
+          height: 10px;
+          background-color: red;
+          border-radius: 50%;
+          animation: ping 0.5s ease-out;
+      }
+
+      /* Style pour le badge de compteur */
+      #cart-count {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          background-color: red;
+          color: white;
+          font-size: 12px;
+          padding: 3px 6px;
+          border-radius: 50%;
+      }
+
+        /* Définition de la couleur brune personnalisée */
+        :root {
+            --custom-brown: #8B4513;
+        }
+
+        /* Style pour les boutons */
+        .btn-primary {
+            background-color: var(--custom-brown) !important;
+            border-color: var(--custom-brown) !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #703810 !important;
+            border-color: #703810 !important;
+        }
+
+        /* Style pour le panier flottant */
+        #floating-cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--custom-brown);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #floating-cart #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        /* Animation du panier */
+        @keyframes ping {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .ping {
+            animation: ping 0.5s cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        /* Modification de la couleur de l'en-tête */
+        .bg-primary {
+            background-color: var(--custom-brown) !important;
+        }
+
+
+
+
+        :root {
+            --custom-brown: #8B4513;
+            --light-brown: #DEB887;
+        }
+
+        /* Styles existants pour les boutons et le panier ... */
+
+        /* Styles du footer */
+        .footer {
+            background-color: var(--custom-brown);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer h5 {
+            color: var(--light-brown);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-brown);
+        }
+
+        .social-icons {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            color: white;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--light-brown);
+        }
+
+        .footer-bottom {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        .newsletter-input {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .newsletter-button {
+            background-color: var(--light-brown);
+            border: none;
+            color: var(--custom-brown);
+            padding: 0.5rem 1rem;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background-color: #cd9b59;
+        }
