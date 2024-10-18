@@ -31,14 +31,14 @@ function displayProducts(products) {
 
     products.forEach(product => {
         const productElement = document.createElement('div');
-        productElement.className = `col-md-4 product-item ${product.category}`;
+        productElement.className = `col-md-4 product-item mb-4 ${product.category}`; // Ajout de mb-4 pour espacer les éléments
         productElement.innerHTML = `
             <div class="card">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}">
                 <div class="card-body text-center">
                     <h5 class="card-title">${product.name}</h5>
                     <p class="card-text">${product.description}</p>
-                    <p class="price">Prix : ${product.price} €</p>
+                    <p class="price">Prix : ${product.price.toFixed(2)} €</p>
                     <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Ajouter au panier</button>
                 </div>
             </div>

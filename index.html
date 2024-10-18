@@ -156,14 +156,14 @@ function displayProducts(products) {
 
     products.forEach(product => {
         const productElement = document.createElement('div');
-        productElement.className = `col-md-4 product-item ${product.category}`;
+        productElement.className = `col-md-4 product-item mb-4 ${product.category}`; // Ajout de mb-4 pour espacer les éléments
         productElement.innerHTML = `
             <div class="card">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}">
                 <div class="card-body text-center">
                     <h5 class="card-title">${product.name}</h5>
                     <p class="card-text">${product.description}</p>
-                    <p class="price">Prix : ${product.price} €</p>
+                    <p class="price">Prix : ${product.price.toFixed(2)} €</p>
                     <button class="btn btn-primary add-to-cart" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}">Ajouter au panier</button>
                 </div>
             </div>
@@ -252,6 +252,7 @@ function filterProducts(originalProducts) {
     displayProducts(filteredProducts);
 }
 
+
 function sortProducts(products, sortOption) {
     let sortedProducts = [...products];
     if (sortOption === 'priceAsc') {
@@ -306,139 +307,44 @@ document.getElementById('confirmation-form').addEventListener('submit', (e) => {
 });
 </script>
 
-</body>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <!-- ... (code existant de la section head) ... -->
-    <style>
-        :root {
-            --custom-brown: #8B4513;
-            --light-brown: #DEB887;
-        }
-
-        /* Styles existants pour les boutons et le panier ... */
-
-        /* Styles du footer */
-        .footer {
-            background-color: var(--custom-brown);
-            color: white;
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
-
-        .footer h5 {
-            color: var(--light-brown);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--light-brown);
-        }
-
-        .social-icons {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .social-icons a {
-            color: white;
-            margin-right: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: var(--light-brown);
-        }
-
-        .footer-bottom {
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 1rem 0;
-            margin-top: 2rem;
-        }
-
-        .newsletter-input {
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px 0 0 4px;
-        }
-
-        .newsletter-button {
-            background-color: var(--light-brown);
-            border: none;
-            color: var(--custom-brown);
-            padding: 0.5rem 1rem;
-            border-radius: 0 4px 4px 0;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .newsletter-button:hover {
-            background-color: #cd9b59;
-        }
-    </style>
-</head>
-<body>
-    <!-- ... (code existant) ... -->
-
-    <!-- Ajouter le footer juste avant la fermeture du body -->
-    <footer class="footer">
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>À propos de DeanWinchester</h5>
+                <p>Votre destination mode préférée pour des vêtements de qualité. Nous proposons une large gamme de vêtements pour hommes, femmes et enfants.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Liens Utiles</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Notre Histoire</a></li>
+                    <li><a href="#">Conditions Générales</a></li>
+                    <li><a href="#">Politique de Confidentialité</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>Newsletter</h5>
+                <p>Inscrivez-vous pour recevoir nos dernières offres et nouveautés.</p>
+                <div class="input-group">
+                    <input type="email" class="newsletter-input" placeholder="Votre email">
+                    <button class="newsletter-button">S'inscrire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h5>À propos de DeanWinchester</h5>
-                    <p>Votre destination mode préférée pour des vêtements de qualité. Nous proposons une large gamme de vêtements pour hommes, femmes et enfants.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-pinterest"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h5>Liens Utiles</h5>
-                    <ul class="footer-links">
-                        <li><a href="#">Notre Histoire</a></li>
-                        <li><a href="#">Conditions Générales</a></li>
-                        <li><a href="#">Politique de Confidentialité</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h5>Newsletter</h5>
-                    <p>Inscrivez-vous pour recevoir nos dernières offres et nouveautés.</p>
-                    <div class="input-group">
-                        <input type="email" class="newsletter-input" placeholder="Votre email">
-                        <button class="newsletter-button">S'inscrire</button>
-                    </div>
-                </div>
-            </div>
+            <p class="mb-0">&copy; 2024 DeanWinchester. Tous droits réservés.</p>
         </div>
-        <div class="footer-bottom text-center">
-            <div class="container">
-                <p class="mb-0">&copy; 2024 DeanWinchester. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ... (scripts existants) ... -->
+    </div>
+</footer>
 </body>
-</html>
 </html>

@@ -22,5 +22,53 @@
         "price": 50,
         "image": "img/enfant1.png",
         "category": "enfants"
+    },
+    {
+        "id": 4,
+        "name": "Pull sportif",
+        "description": "Pull élégante en coton égyptien, parfaite pour le sport. Coupe ajustée et finitions raffinées pour un look professionnel impeccable.",
+        "price": 75,
+        "image": "img/homme2.png",
+        "category": "hommes"
+    },
+    {
+        "id": 5,
+        "name": "Chemise Jeans",
+        "description": "Chemise Jeans coupe slim en denim premium avec stretch confortable. Parfait pour toutes les occasions, du casual au semi-formel.",
+        "price": 90,
+        "image": "img/homme3.png",
+        "category": "hommes"
+    },
+    {
+        "id": 6,
+        "name": "Jeans",
+        "description": "Jeans structuré avec doublure soyeuse. Coupe moderne et tissu respirant pour un confort optimal toute la journée.",
+        "price": 150,
+        "image": "img/femme2.png",
+        "category": "femmes"
+    },
+    {
+        "id": 7,
+        "name": "T-shirt",
+        "description": "T-shirt midi plissée à la coupe flatteuse. Tissu fluide et élégant, parfaite pour toutes les occasions.",
+        "price": 65,
+        "image": "img/femme3.png",
+        "category": "femmes"
+    },
+    {
+        "id": 8,
+        "name": "petite robe Enfant",
+        "description": "Pull douillet en laine mérinos, parfait pour les journées fraîches. Motifs ludiques.",
+        "price": 45,
+        "image": "img/enfant2.png",
+        "category": "enfants"
+    },
+    {
+        "id": 9,
+        "name": "Robe Enfant",
+        "description": "Jean résistant avec genoux renforcés. Élastique à la taille pour un ajustement parfait.",
+        "price": 40,
+        "image": "img/enfants3.png",
+        "category": "enfants"
     }
 ]
